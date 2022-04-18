@@ -9,6 +9,8 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use DB;
+use Mail;
+use App\Mail\SendEmailToEmployee;
 
 class CsvFileUpload implements ShouldQueue
 {
@@ -77,6 +79,10 @@ class CsvFileUpload implements ShouldQueue
                             $organizationAddressData
                         ]);
 
+                        // Sending the email t inserted emails
+
+                        $email = new SendEmailToEmployee($employee);
+                        Mail::to($employee['email'])->send($email);
                     }
                 }
             }
